@@ -1,0 +1,152 @@
+.container {
+    max-width: 800px;
+    width: 100%;
+
+    border-radius: 15px;
+
+    margin: auto;
+
+    padding: 40px;
+}
+
+.recipe_form {
+
+    display: flex;
+
+    flex-direction: column;
+
+
+    gap: 30px;
+}
+
+.btn {
+    box-shadow: none;
+
+    background: #4961DD;
+
+    align-self: center;
+    justify-self: center;
+
+    &:hover {
+        box-shadow: none;
+        background: #4961DD;
+    }
+
+}
+
+.input_box {
+    display: flex;
+
+    gap: 10px;
+}
+
+
+.label {
+    color: rgba(0, 0, 0, 0.70);
+
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Roboto';
+
+    min-width: 200px;
+}
+
+.input {
+
+    font-size: 16px;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.60);
+    font-family: 'Roboto';
+
+    padding: 5px 10px;
+
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.60);
+
+    width: 100%;
+
+    & :global .MuiInputBase-input {
+        padding: 0;
+    }
+}
+
+
+.input_time {
+    width: 100px;
+
+    margin-right: 10px;
+}
+
+@media (max-width:600px) {
+    .container {
+        padding: 20px;
+        margin-bottom: 40px;
+    }
+
+    .input_box {
+        flex-direction: column;
+    }
+}
+
+
+
+
+/// Стили для списка ингредиентов
+.list_ingredients {
+    display: flex;
+    width: 100%;
+
+    flex-direction: column;
+
+    justify-content: flex-start;
+
+    gap: 10px;
+}
+
+
+.btn_add_ingred {
+    color: rgba(0, 0, 0, 0.60);
+    font-size: 14px;
+    font-family: Roboto;
+    font-weight: 600;
+
+    width: fit-content;
+
+    &:hover {
+        border-bottom: 2px solid rgba(0, 0, 0, 0.60);
+    }
+}
+
+
+.ingredient_box {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.input_amount {
+    width: 100px;
+}
+
+
+.mde_box {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.del_icon {
+    cursor: pointer;
+
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.text_area_editor {
+
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.60);
+
+}

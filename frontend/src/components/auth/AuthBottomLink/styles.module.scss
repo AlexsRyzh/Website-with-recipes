@@ -1,0 +1,24 @@
+.container {
+    display: flex;
+    gap: 5px;
+}
+
+.text {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+
+    color: rgba(64, 64, 64, 0.6);
+}
+
+.link {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+
+    color: #4961DD;
+}

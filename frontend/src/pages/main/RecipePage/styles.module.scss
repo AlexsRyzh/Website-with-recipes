@@ -1,0 +1,84 @@
+.container {
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+    border-radius: 15px;
+    margin: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.img {
+    height: 350px;
+    border-radius: 10px;
+
+    object-fit: cover;
+}
+
+.profile_container {
+    display: flex;
+    gap: 10px;
+
+    align-items: center;
+
+    & .profile_icon {
+        width: 30px;
+        height: 30px;
+        color: rgba(0, 0, 0, 0.6);
+    }
+
+    & .profile_author {
+        color: #686868;
+        font-size: 14px;
+        font-family: 'Roboto';
+        font-weight: 600;
+    }
+}
+
+
+.title {
+    color: rgba(0, 0, 0, 0.80);
+    font-size: 24px;
+    font-family: 'Roboto';
+    font-weight: 600;
+}
+
+.section_title {
+    color: rgba(0, 0, 0, 0.70);
+    font-size: 20px;
+    font-family: 'Roboto';
+    font-weight: 600;
+}
+
+.cooking_time_container {
+    display: flex;
+    gap: 5px;
+}
+
+.desc_container {
+
+    .desc_view {
+        color: rgba(0, 0, 0, 0.70);
+        font-size: 20px;
+        font-family: 'Roboto';
+        white-space: pre-wrap;
+    }
+}
+
+@media (max-width:500px) {
+    .container {
+        padding: 10px;
+    }
+
+    .img {
+        height: 250px;
+    }
+
+    .cooking_time_container {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+

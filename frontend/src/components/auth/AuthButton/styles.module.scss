@@ -1,0 +1,19 @@
+.button {
+    background: #4961DD;
+    padding: 12px;
+    text-transform: none;
+
+    font-family: 'Roboto' sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+
+    color: #FFFFFF;
+
+    margin-top: 10px;
+
+    &:focus {
+        background: #4961DD;
+    }
+}

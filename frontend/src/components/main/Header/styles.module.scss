@@ -1,0 +1,48 @@
+.container {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+}
+
+.title {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 33px;
+
+    color: #000000;
+}
+
+
+
+
+///Mobile
+
+
+.filter_btn {
+    text-transform: none;
+
+    background: #4961DD;
+    padding: 5px 10px;
+    box-shadow: none;
+
+    &:hover {
+        background: #4961DD;
+
+        box-shadow: none;
+    }
+}
+
+.filter_burger_box {
+    padding: 20px;
+}
+
+.filter_title {
+    color: rgba(0, 0, 0, 0.80);
+    font-size: 24px;
+    font-family: 'Roboto';
+    font-weight: 600;
+    margin-bottom: 20px;
+}
