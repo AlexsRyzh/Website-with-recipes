@@ -1,12 +1,10 @@
-import { Button, Card, Typography, Box, InputBase, TextField } from "@mui/material";
+import { Button, Card, Typography, Box, InputBase } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Close';
 import styles from './styles.module.scss'
 import MyDropZone from "../../../components/main/MyDropZone";
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback } from "react";
 import Filter from "../../../components/main/Filter";
 import clsx from "clsx";
-import { SimpleMdeReact } from "react-simplemde-editor";
-import "easymde/dist/easymde.min.css";
 
 
 export default function CreateRecipePage() {
