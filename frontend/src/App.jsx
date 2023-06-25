@@ -8,7 +8,8 @@ import { StyledEngineProvider } from "@mui/material/styles";
 function App() {
   return (
     <StyledEngineProvider injectFirst>
-      <RouterProvider router={router} />
+      {/* <RouterProvider router={router} /> */}
+      Hello world
     </StyledEngineProvider>
   );
 }
