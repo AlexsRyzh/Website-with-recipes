@@ -1,33 +1,27 @@
 import { Box, Typography } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './styles.module.scss'
-import imgHref from '../../../assets/recipe_img.png'
 import RecipeCard from '../../../components/main/RecipeCard'
 import RecipesCardSkeleton from '../../../components/skeletons/RecipesCardSkeleton'
 import { FAVOURITES_RECIPES_ROUTER, MY_RECIPES_ROUTER, RECIPES_ROUTER } from '../../../consts/consts'
 import { useLocation } from 'react-router-dom'
 import AddRecipeIcon from '@mui/icons-material/PostAddOutlined';
-
 import AddFavouriteIcon from '@mui/icons-material/BookmarkAdd';
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchRecipes } from '../../../redux/slices/recipes'
+
 
 export default function RecipesPage() {
     const location = useLocation().pathname
+    const dispatch = useDispatch()
+    const { recipes } = useSelector(state => state.recipes)
+    const isRecipesLoading = recipes.status === 'loading'
 
-    const status = 'done'
+    useEffect(() => {
+        dispatch(fetchRecipes())
+    }, [])
 
-    const [recipes, setRecipes] = useState(new Array(6).fill({
-        img: imgHref,
-        title: 'Пирог с малиной',
-        tags: ["Завтрак", "Обед", "Ужин"],
-        cookingTime: 20,
-        author: {
-            name: 'Вероника',
-            surname: 'Чернова'
-        },
-    }))
-
-
-    if (status === 'loading') {
+    if (isRecipesLoading) {
         return (
             <Box className={styles['card-container']}>
                 {new Array(6).fill(0).map((_, index) => (
@@ -74,7 +68,7 @@ export default function RecipesPage() {
 
     return (
         <Box className={styles['card-container']}>
-            {recipes.map((item) => (
+            {recipes.items.map((item) => (
                 <RecipeCard
                     {...item}
                     canAddFavourite={true}

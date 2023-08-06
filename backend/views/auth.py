@@ -2,8 +2,8 @@ from fastapi import APIRouter
 from fastapi.encoders import jsonable_encoder
 from schemas.authSchema import RegisterRequest, LoginRequest
 from models.UserModel import UserModel
-from jose import jwt
-from db.db import db
+from service.AuthService import create_access_token
+from db import db
 
 router = APIRouter(
     prefix='/auth',
@@ -30,7 +30,17 @@ def register(request: RegisterRequest):
 
 @router.post('/login')
 def login(request: LoginRequest):
-    return request
+    date = jsonable_encoder(request)
+
+    token = create_access_token({
+        'email': date['email'],
+        'password': date['password']
+    })
+
+    return {
+        'succes': True,
+        'token': token
+    }
 
 
 @router.post('/logout')

@@ -38,11 +38,6 @@ export default function MainLayot() {
 
     const location = useLocation().pathname
     const [filter, setFilter] = useState([])
-
-    useEffect(() => {
-        console.log(filter);
-    }, [filter])
-
     return (
         <Box className={styles['container']}>
             <Nav

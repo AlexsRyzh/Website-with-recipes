@@ -1,14 +1,13 @@
-import { RouterProvider } from "react-router";
-import router from "./router/router";
 import "./reset.scss";
 import "./fonts/fonts.scss";
-import { StyledEngineProvider } from "@mui/material/styles";
+import { BrowserRouter } from "react-router-dom";
+import RootRouter from "./router/RootRouter";
 
 function App() {
   return (
-    <StyledEngineProvider injectFirst>
-      <RouterProvider router={router} />
-    </StyledEngineProvider>
+      <BrowserRouter>
+        <RootRouter/>
+      </BrowserRouter>
   );
 }
 

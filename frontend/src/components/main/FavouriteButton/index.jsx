@@ -15,7 +15,7 @@ const variant_btn = {
 
 const variant_icon = {
     inFavorites: {
-        color: 'white',
+        color: '#FFFFFF',
         rotate: 45
     },
     outFavorites: {
@@ -26,7 +26,7 @@ const variant_icon = {
 
 const variant_label = {
     inFavorites: {
-        color: 'white',
+        color: '#FFFFFF',
     },
     outFavorites: {
         color: '#697CC1'
@@ -34,8 +34,7 @@ const variant_label = {
 }
 
 
-export default function FavouriteButton({
-}) {
+export default function FavouriteButton() {
 
     const [isFavourite, setFavourite] = useState(false)
 
