@@ -1,12 +1,8 @@
 # Сайт с рецептами
 
-Это учебный веб-проект сайта с рецептами. 
-
-Если собираетесь использовать макет проекта, то для этого надо поставить звезду на gitHub и подписаться
+Это учебный веб-проект сайта с рецептами. (Сайт не готов до конца)
 
 [Ссылка на макет сайта](https://www.figma.com/file/DocOaT7B1VhlVWvysU3Zir/%D0%A0%D0%B5%D1%86%D0%B5%D0%BF%D1%82%D1%8B?type=design&node-id=0%3A1&t=bUM68IE1AKJSvWuX-1)
-
-[Ссылка на frontend сайта](https://www.figma.com/file/DocOaT7B1VhlVWvysU3Zir/%D0%A0%D0%B5%D1%86%D0%B5%D0%BF%D1%82%D1%8B?type=design&node-id=0%3A1&t=bUM68IE1AKJSvWuX-1)
 
 # Инструменты
 
