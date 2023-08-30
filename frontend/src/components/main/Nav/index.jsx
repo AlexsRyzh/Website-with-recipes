@@ -12,16 +12,17 @@ import {
     REGISTER_ROUTER
 } from '../../../consts/consts'
 import BurgerMenu from '../BurgerMenu'
+import { useSelector } from 'react-redux'
+import { isAuthSelector } from '../../../redux/slices/auth'
 
 export default function Nav({ routes }) {
-
     const location = useLocation().pathname
-    const navigate = useNavigate()
+    const isAuth = useSelector(isAuthSelector)
     const { width } = useWindowSize()
+
 
     const name = "Alexs"
     const surname = 'Petrenko'
-    const auth = true
 
 
     const [open, setOpen] = useState(false)
@@ -47,7 +48,7 @@ export default function Nav({ routes }) {
                     <Box className={styles['burger_container']}>
 
                         <Box className={styles['btn_container']}>
-                            {!auth ?
+                            {!isAuth ?
                                 <>
                                     <Link to={LOGIN_ROUTER}>
                                         <Button
@@ -96,19 +97,16 @@ export default function Nav({ routes }) {
 
                         <ul className={styles['tabs']}>
                             {routes.map((item) => (
-                                auth >= item.private &&
-                                <li
+                                isAuth >= item.private &&
+                                <Link
                                     key={item.label}
-                                    onClick={() => {
-                                        navigate(item.path)
-                                    }}
                                     className={clsx(
                                         styles['tab'],
                                         { [styles['tab-selected']]: item.path === location }
                                     )}
                                 >
                                     {item.label}
-                                </li>
+                                </Link>
 
 
                             ))}
@@ -129,7 +127,7 @@ export default function Nav({ routes }) {
             <nav className={styles['container']}>
                 <ul className={styles['tabs']}>
                     {routes.map((item) => (
-                        auth >= item.private &&
+                        isAuth >= item.private &&
                         <li
                             key={item.label}
                             onClick={() => {
@@ -155,7 +153,7 @@ export default function Nav({ routes }) {
                 </ul>
 
                 <Box className={styles['btn_container']}>
-                    {!auth ?
+                    {!isAuth ?
                         <>
                             <Link to={LOGIN_ROUTER}>
                                 <Button

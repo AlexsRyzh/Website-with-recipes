@@ -1,18 +1,17 @@
-from pydantic import BaseModel, Field
+from beanie import Document, before_event, Insert, Replace, Indexed
+from datetime import datetime
 
+class UserModel(Document):
+    login: str
+    name: str
+    surename: str
+    password_hash: str
+    created_at: datetime = datetime.utcnow()
+    updated_at: datetime = datetime.utcnow()
 
-class UserModel(BaseModel):
-    login: str = Field(...)
-    name: str = Field(...)
-    surename: str = Field(...)
-    password_hash: str = Field(...)
+    class Settings:
+        name = 'users'
 
-    class Config:
-        schema_extra = {
-            'example': {
-                'login': 'alex123',
-                'name': 'alexs',
-                'surename': 'petrov',
-                'password_hash': '3ij3904j3n53n9g593'
-            }
-        }
+    @before_event([Insert,Replace])
+    def update_update(self):
+        self.updated_at = datetime.utcnow()

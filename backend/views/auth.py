@@ -1,9 +1,11 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, Depends
 from fastapi.encoders import jsonable_encoder
-from schemas.authSchema import RegisterRequest, LoginRequest
+from request import RegisterRequest, LoginRequest
 from models.UserModel import UserModel
-from service.AuthService import create_access_token
-from db import db
+from service.auth_service import create_access_token
+from service.security_service import get_current_user
+import bcrypt
+
 
 router = APIRouter(
     prefix='/auth',
@@ -12,34 +14,108 @@ router = APIRouter(
 
 
 @router.post('/register')
-def register(request: RegisterRequest):
-    request_json = jsonable_encoder(request)
-    user = UserModel(
-        login=request_json['login'],
-        name=request_json['name'],
-        surename=request_json['surename'],
-        password_hash='csv9fvs9j'
-    )
-    try:
-        db['user'].insert_one(jsonable_encoder(user))
-    except e:
-        return 'Fail'
+async def register(request: RegisterRequest):
 
-    return jsonable_encoder(user)
+    hasSameLogin = await UserModel.find_one(
+        UserModel.login == request.login
+    )
+
+    if hasSameLogin:
+        raise HTTPException(
+            status_code=500,
+            detail="Пользовател с таким логином существует",
+        )
+
+    password = request.password
+    salt = bcrypt.gensalt()
+    password_hash = bcrypt.hashpw(
+        password=password.encode(),
+        salt=salt
+    ).decode()
+
+    user = UserModel(
+        login=request.login,
+        name=request.name,
+        surename=request.surename,
+        password_hash=password_hash
+    )
+
+    try:
+
+        await user.save()
+        token = create_access_token({
+            'id': str(user.id)
+        })
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail="Не удалось зарегистрироваться",
+        )
+
+    user = user.dict()
+    user.pop("password_hash")
+
+    return {
+        'user': user,
+        'access_token': token
+    }
 
 
 @router.post('/login')
-def login(request: LoginRequest):
-    date = jsonable_encoder(request)
+async def login(request: LoginRequest):
+
+    user = await UserModel.find_one(
+        UserModel.login == request.login
+    )
+
+    if not user:
+        raise HTTPException(
+            status_code=404,
+            detail="Пользователь не найден"
+        )
+
+    is_valid_pass = bcrypt.checkpw(
+        request.password.encode(),
+        user.password_hash.encode()
+    )
+
+    if not is_valid_pass:
+        raise HTTPException(
+            status_code=404,
+            detail="Не верный логин или пароль"
+        )
 
     token = create_access_token({
-        'email': date['email'],
-        'password': date['password']
+        'id': str(user.id)
     })
 
+    user = user.dict()
+    user.pop("password_hash")
+
     return {
-        'succes': True,
-        'token': token
+        'user': user,
+        'access_token': token
+    }
+
+
+@router.get('/user/me')
+async def me(user_id: str = Depends(get_current_user)):
+
+    user = await UserModel.get(user_id)
+
+    if not user:
+        raise HTTPException(
+            status_code=404,
+            detail='Пользователь не найден'
+        )
+    
+    user = user.dict()
+    user.pop("password_hash")
+
+
+    return {
+        'user': user,
     }
 
 

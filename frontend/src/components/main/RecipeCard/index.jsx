@@ -56,7 +56,7 @@ export default function RecipeCard({
                     <Box className={styles['flex-container']}>
                         <ProfileIcon className={styles['icon']} />
                         <Typography component={'p'} className={styles['text']}>
-                            {author.name} {author.surname}
+                            {author?.name} {author?.surname}
                         </Typography>
                     </Box>
                 </Box>

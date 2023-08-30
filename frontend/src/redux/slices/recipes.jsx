@@ -2,42 +2,40 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from '../../axios'
 
 export const fetchRecipes = createAsyncThunk('/recipes/fetchRecipes', async () => {
-  const { data } = await axios.get('/recipes')
-  await new Promise((res) => setTimeout(res, 4000))
-  return data
+    const { data } = await axios.get('/recipes')
+    await new Promise((res) => setTimeout(res, 4000))
+    return data
 })
 
 const initialState = {
-  recipes: {
-    items: [],
+    recipes: [],
     status: 'loading'
-  }
 }
 
 
 const recipesSlice = createSlice({
-  name: 'recipes',
-  initialState,
-  reducers: {
+    name: 'recipes',
+    initialState,
+    reducers: {
 
-  },
-  extraReducers: {
-    [fetchRecipes.pending]: (state) => {
-      state.recipes.items = []
-      state.recipes.status = 'loading'
     },
-    [fetchRecipes.fulfilled]: (state, action) => {
+    extraReducers: (builder) => {
 
-      state.recipes.items = action.payload
-      state.recipes.status = 'loaded'
-    },
-    [fetchRecipes.rejected]: (state, action) => {
-      state.recipes.items = []
-      state.recipes.status = 'error'
-    },
+        builder.addCase(fetchRecipes.pending, (state) => {
+            state.status = 'loading'
+        })
 
-  }
+        builder.addCase(fetchRecipes.fulfilled, (state, action) => {
+            state.recipes = action.payload
+            state.status = 'loaded'
+        })
+
+        builder.addCase(fetchRecipes.rejected, (state, action) => {
+            state.recipes = []
+            state.status = 'error'
+        })
+
+    }
 })
-
 
 export const recipesReducer = recipesSlice.reducer

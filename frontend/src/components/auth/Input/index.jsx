@@ -1,7 +1,9 @@
 import { Box, InputBase, Typography } from "@mui/material";
+import { forwardRef } from "react";
 import styles from "./styles.module.scss";
 
-export default function Input({ label = null, ...props }) {
+
+const Input = forwardRef(({ label = null, error = false, helperText = '', ...props }, ref) => {
   return (
     <Box className={styles["container"]}>
       {label && (
@@ -10,11 +12,18 @@ export default function Input({ label = null, ...props }) {
         </Typography>
       )}
       <InputBase
-        size="small"
-        autoComplete="false"
         className={styles["input"]}
+        ref={ref}
         {...props}
       />
+      {error &&
+        <Typography className={styles["error"]} component={"p"}>
+          {helperText}
+        </Typography>
+      }
+
     </Box>
   );
-}
+})
+
+export default Input

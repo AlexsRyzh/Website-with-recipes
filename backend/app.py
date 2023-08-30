@@ -1,19 +1,15 @@
+from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
-from fastapi import FastAPI
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-from os import environ
-from typing import Optional
-from db import db
-from serializers.serializers import user_list_serializers
-from views import auth, recipes
-
+from views import auth, recipes, file
+from db import init_db
 
 load_dotenv()
 app = FastAPI()
 
 origins = ["*"]
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -22,11 +18,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    return JSONResponse(
+        status_code=422,
+        content={"detail": exc.errors(), "body": exc.body},
+    )
+
+
 app.include_router(auth.router)
 app.include_router(recipes.router)
+app.include_router(file.router)
 
-
-@app.get('/users')
-async def get_users():
-    users_list = await db['user'].find({}).to_list(None)
-    return user_list_serializers(users_list)
+@app.on_event("startup")
+async def app_init():
+    await init_db()

@@ -14,8 +14,8 @@ import { fetchRecipes } from '../../../redux/slices/recipes'
 export default function RecipesPage() {
     const location = useLocation().pathname
     const dispatch = useDispatch()
-    const { recipes } = useSelector(state => state.recipes)
-    const isRecipesLoading = recipes.status === 'loading'
+    const { recipes, status } = useSelector(state => state.recipes)
+    const isRecipesLoading = status === 'loading'
 
     useEffect(() => {
         dispatch(fetchRecipes())
@@ -68,9 +68,11 @@ export default function RecipesPage() {
 
     return (
         <Box className={styles['card-container']}>
-            {recipes.items.map((item) => (
+            {recipes.map((recipe) => (
                 <RecipeCard
-                    {...item}
+                    title={recipe.title}
+                    tags={recipe.tags}
+                    cookingTime={recipe.cooking_time}
                     canAddFavourite={true}
                     canEdit={true}
                 />
