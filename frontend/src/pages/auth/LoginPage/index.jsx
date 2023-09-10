@@ -6,7 +6,7 @@ import AuthForm from "../../../components/auth/AuthForm";
 import { REGISTER_ROUTER, RECIPES_ROUTER } from "../../../consts/consts";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAuth, isAuthSelector } from "../../../redux/slices/auth";
+import { fetchLogin, isAuthSelector } from "../../../redux/slices/auth";
 import { Navigate } from "react-router-dom";
 
 
@@ -27,8 +27,8 @@ export default function LoginPage() {
         },
     })
 
-    const onSubmit = (values) => {
-        dispatch(fetchAuth(values))
+    const onSubmit = (value) => {
+        dispatch(fetchLogin(value))
     }
 
     if (isAuth) {
@@ -49,7 +49,7 @@ export default function LoginPage() {
                     error={Boolean(errors.login?.message)}
                     helperText={errors.login?.message}
                     {...register('login', {
-                        required: 'Укажите почту'
+                        required: 'Укажите почту',
                     })}
                 />
                 <Input

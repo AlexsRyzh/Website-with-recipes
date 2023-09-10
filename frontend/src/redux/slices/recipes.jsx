@@ -1,10 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from '../../axios'
+import $api from '../../http'
+import RecipeService from "../../services/RecipeService";
 
 export const fetchRecipes = createAsyncThunk('/recipes/fetchRecipes', async () => {
-    const { data } = await axios.get('/recipes')
-    await new Promise((res) => setTimeout(res, 4000))
-    return data
+    const response = await RecipeService.getAll()
+    return response.data
+})
+
+export const fetchMyRecipes = createAsyncThunk('/recipes/fetchMyRecipes', async () => {
+    const response = await RecipeService.getMy()
 })
 
 const initialState = {

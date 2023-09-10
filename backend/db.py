@@ -3,6 +3,7 @@ from os import environ
 from beanie import init_beanie
 from models.UserModel import UserModel
 from models.RecipeModel import RecipeModel
+from models.FavouriteModel import FavouriteModel
 
 
 async def init_db():

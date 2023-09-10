@@ -10,6 +10,8 @@ import {
     FAVOURITES_RECIPES_ROUTER,
     CREATE_RECIPE_ROUTER,
 } from '../../consts/consts'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchMe, getUser, isAuthSelector } from '../../redux/slices/auth'
 
 const routes = [
     {
@@ -35,13 +37,25 @@ const routes = [
 ]
 
 export default function MainLayot() {
+    const dispatch = useDispatch()
+    const user = useSelector(getUser)
+    const isAuth = useSelector(isAuthSelector)
 
     const location = useLocation().pathname
     const [filter, setFilter] = useState([])
+
+    useEffect(() => {
+        dispatch(fetchMe())
+    }, [])
+
+
     return (
         <Box className={styles['container']}>
             <Nav
+                isAuth={isAuth}
                 routes={routes}
+                name={user?.name}
+                surname={user?.surename}
             />
             {routes.map((item) => (
                 item.path === location &&

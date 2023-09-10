@@ -98,26 +98,8 @@ async def login(request: LoginRequest):
         'access_token': token
     }
 
-
-@router.get('/user/me')
-async def me(user_id: str = Depends(get_current_user)):
-
-    user = await UserModel.get(user_id)
-
-    if not user:
-        raise HTTPException(
-            status_code=404,
-            detail='Пользователь не найден'
-        )
+async def refresh():
     
-    user = user.dict()
-    user.pop("password_hash")
-
-
-    return {
-        'user': user,
-    }
-
 
 @router.post('/logout')
 def logout():

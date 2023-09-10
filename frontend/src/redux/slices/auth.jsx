@@ -1,14 +1,30 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from '../../axios'
+import AuthService from "../../services/AuthService";
+import UserService from "../../services/UserService";
 
-export const fetchAuth = createAsyncThunk('auth/fetchAuth', async (params) => {
-    const { data } = await axios.post('auth/login', params)
-    return data
+export const fetchLogin = createAsyncThunk('auth/fetchLogin', async ({ login, password }) => {
+    const response = await AuthService.login(login, password)
+    return response.data
+})
+
+export const fetchRegistration = createAsyncThunk('auth/fetchRegisteration', async ({ login, name, surename, password }) => {
+    const response = await AuthService.registration(login, name, surename, password)
+    return response.data
+})
+
+export const fetchLogout = createAsyncThunk('auth/fetchLogout', async () => {
+    const response = await AuthService.logout()
+    return response.data
+})
+
+export const fetchMe = createAsyncThunk('auth/fetchMe', async () => {
+    const response = await UserService.getMe()
+    return response.data
 })
 
 
 const initialState = {
-    data: null,
+    user: null,
     status: 'loading'
 }
 
@@ -17,23 +33,72 @@ const authSlice = createSlice({
     initialState,
     extraReducers: (builder) => {
 
-        builder.addCase(fetchAuth.pending, (state) => {
+        ///fetchLogin
+        builder.addCase(fetchLogin.pending, (state) => {
             state.status = 'loading'
         })
+        builder.addCase(fetchLogin.fulfilled, (state, action) => {
+            console.log(action.payload);
+            state.user = action.payload.user
 
-        builder.addCase(fetchAuth.fulfilled, (state, action) => {
-            state.data = action.payload
+            localStorage.setItem('token', action.payload.access_token)
+
             state.status = 'loaded'
         })
-
-        builder.addCase(fetchAuth.rejected, (state) => {
+        builder.addCase(fetchLogin.rejected, (state) => {
             state.data = null
             state.status = 'error'
         })
+        /////////////
+
+
+        ///fetchLogin
+        builder.addCase(fetchRegistration.pending, (state) => {
+            state.status = 'loading'
+        })
+        builder.addCase(fetchRegistration.fulfilled, (state, action) => {
+            state.user = action.payload
+            localStorage.setItem('token', action.payload.access_token)
+            state.status = 'loaded'
+        })
+        builder.addCase(fetchRegistration.rejected, (state) => {
+            state.user = null
+            state.status = 'error'
+        })
+        ///////
+
+        ///fetchLogout
+        builder.addCase(fetchLogout.pending, (state) => {
+            state.status = 'loading'
+        })
+        builder.addCase(fetchLogout.fulfilled, (state, action) => {
+            state.user = null
+            localStorage.removeItem('token')
+            state.status = 'loaded'
+        })
+        builder.addCase(fetchLogout.rejected, (state) => {
+            state.status = 'error'
+        })
+        ///////
+
+        ///fetchLogout
+        builder.addCase(fetchMe.pending, (state) => {
+            state.status = 'loading'
+        })
+        builder.addCase(fetchMe.fulfilled, (state, action) => {
+            state.user = action.payload
+            state.status = 'loaded'
+        })
+        builder.addCase(fetchMe.rejected, (state) => {
+            state.status = 'error'
+        })
+        ///////
 
     }
 })
 
-export const isAuthSelector = (state) => Boolean(state.auth.data)
+export const isAuthSelector = (state) => Boolean(state.auth.user)
+
+export const getUser = (state) => state.auth.user
 
 export const authReducer = authSlice.reducer

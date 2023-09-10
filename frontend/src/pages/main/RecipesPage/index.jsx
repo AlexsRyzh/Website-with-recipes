@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import styles from './styles.module.scss'
 import RecipeCard from '../../../components/main/RecipeCard'
 import RecipesCardSkeleton from '../../../components/skeletons/RecipesCardSkeleton'
@@ -17,8 +17,14 @@ export default function RecipesPage() {
     const { recipes, status } = useSelector(state => state.recipes)
     const isRecipesLoading = status === 'loading'
 
-    useEffect(() => {
-        dispatch(fetchRecipes())
+    useLayoutEffect(() => {
+        if (location === RECIPES_ROUTER) {
+            dispatch(fetchRecipes())
+            return 
+        }
+        if (location === MY_RECIPES_ROUTER){
+            dispatch()
+        }
     }, [])
 
     if (isRecipesLoading) {

@@ -76,10 +76,10 @@ class UpdateRecipeRequest(BaseModel):
                 {
                     'title': 'Пирог с малиной',
                     'tags': ['Завтрак', 'Обед'],
-                    'ingredients': [Ingredient(
-                        title='Морковь',
-                        amount=5
-                    )],
+                    'ingredients': [{
+                        'title': "Морковь",
+                        'amount': 454
+                    }],
                     'cooking_time': 20,
                     'description': 'csifvibeowbeubgovewbriwtrhr'
                 }

@@ -12,20 +12,17 @@ import {
     REGISTER_ROUTER
 } from '../../../consts/consts'
 import BurgerMenu from '../BurgerMenu'
-import { useSelector } from 'react-redux'
-import { isAuthSelector } from '../../../redux/slices/auth'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchLogout, isAuthSelector } from '../../../redux/slices/auth'
 
-export default function Nav({ routes }) {
+export default function Nav({ routes, name, surname, isAuth }) {
     const location = useLocation().pathname
-    const isAuth = useSelector(isAuthSelector)
     const { width } = useWindowSize()
-
-
-    const name = "Alexs"
-    const surname = 'Petrenko'
-
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const [open, setOpen] = useState(false)
+
 
     useEffect(() => {
         setOpen(false)
@@ -80,6 +77,9 @@ export default function Nav({ routes }) {
                                         {name} {surname}
                                     </Typography>
                                     <Button
+                                        onClick={() => {
+                                            dispatch(fetchLogout())
+                                        }}
                                         className={clsx(
                                             styles['btn'],
                                             styles['contained_btn']
@@ -104,6 +104,7 @@ export default function Nav({ routes }) {
                                         styles['tab'],
                                         { [styles['tab-selected']]: item.path === location }
                                     )}
+                                    to={item.path}
                                 >
                                     {item.label}
                                 </Link>
@@ -185,6 +186,9 @@ export default function Nav({ routes }) {
                                 {name} {surname}
                             </Typography>
                             <Button
+                                onClick={() => {
+                                    dispatch(fetchLogout())
+                                }}
                                 className={clsx(
                                     styles['btn'],
                                     styles['contained_btn']
